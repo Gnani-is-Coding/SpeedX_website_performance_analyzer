@@ -4,6 +4,7 @@ import './index.css'
 function Loader() {
   return (
     <div className='container'>
+      <p>Please wait...</p>
       <div id='loader'>
       </div>
     </div>
