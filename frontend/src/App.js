@@ -13,6 +13,7 @@ function App() {
 
   const analyzeWebsite = async (url) => {
     setView('LOADING')
+    setError('')
     try {
       const response = await fetch('http://localhost:3001/analyze', {
         method: 'POST',
@@ -23,11 +24,20 @@ function App() {
       });
 
       const data = await response.json();
-      setPerformanceData(data);
-      setView('DASHBOARD')
+
+      if (response.ok){
+        
+        setPerformanceData(data);
+        setView('DASHBOARD')
+      } else {
+        throw new Error(data.error || "error")
+      }
+     
     } catch (error) {
       console.error('Error:', error);
-      setError(error)
+      console.log(error.message, "its ");
+      
+      setError(error.message)
       setView('')
     }
   };
