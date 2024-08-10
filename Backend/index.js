@@ -26,7 +26,7 @@ app.post('/analyze', async (req, res) => {
 
     const runnerResult = await lighthouse(url, options);
     const reportJson = JSON.parse(runnerResult.report);
-
+    console.log(reportJson.audits, "report")
     await chrome.kill();
 
     const performanceScore = reportJson.categories.performance.score * 100;

@@ -90,7 +90,7 @@ function Dashboard({ data }) {
   };
 
   const doughnutChartData = {
-    labels: ['Performance Score', 'Remaining'],
+    labels: ['Performance Score'],
     datasets: [
       {
         data: [data.performanceScore, 100 - data.performanceScore],
@@ -165,7 +165,7 @@ function Dashboard({ data }) {
             <li className="li">First Contentful Paint (FCP)</li> 
             <li className="li">Speed Index (SI)</li> 
             <li className="li">Largest Contentful Paint (LCP)</li> 
-            <li className="li">Total Blocking Time (TBT)</li> 
+            <li className="li">Total Blocking Time (TBT in ms)</li> 
             <li className="li">Cumulative Layout Shift (CLS)</li> 
             <li className="li">Time to Interactive (TTI)</li>
             <li className="li">First Meaningful Paint (FMP)</li>
