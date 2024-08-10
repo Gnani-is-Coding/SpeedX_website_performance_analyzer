@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+#loader {
+    height: 30px;
+    width: 30px;
+    border: 8px solid;
+    border-color: #6b0909 #a82f2f #cecbcb #1a73e8;
+    border-radius: 50%;
+    animation: rotate 1.5s linear infinite;
+} 
+
+@keyframes rotate{
+    to {transform: rotate(360deg)}
+}

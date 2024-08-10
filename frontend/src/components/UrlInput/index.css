@@ -1,0 +1,36 @@
+.UrlInput {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  
+  .UrlInput input {
+    width: 60%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #dadce0;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+  }
+  
+  .UrlInput input:focus {
+    border-color: #1a73e8;
+  }
+  
+  .UrlInput button {
+    padding: 12px 24px;
+    font-size: 16px;
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+    border-radius: 8px;
+  }
+  
+  .UrlInput button:hover {
+    background-color: #165db5;
+  }
+  
