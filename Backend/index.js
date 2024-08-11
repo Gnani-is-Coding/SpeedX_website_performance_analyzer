@@ -31,7 +31,11 @@ app.post('/analyze', async (req, res) => {
 
   
 
-    const browser = await puppeteer.launch({args: ['--no-sandbox']});
+    // const browser = await puppeteer.launch({args: ['--no-sandbox']});
+    const browser = await puppeteer.launch({
+      executablePath: process.env.CHROME_PATH || '/usr/bin/google-chrome',
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    });
     const options = {
       logLevel: 'info',
       output: 'json',
@@ -42,6 +46,7 @@ app.post('/analyze', async (req, res) => {
     const runnerResult = await lighthouse(url, options);
     const reportJson = JSON.parse(runnerResult.report);
     console.log(reportJson.audits, "report")
+
     await browser.close();
     // await chrome.kill();
 
