@@ -14,8 +14,12 @@ function App() {
   const analyzeWebsite = async (url) => {
     setView('LOADING')
     setError('')
+
+    const apiEndpoint = "http://localhost:3001/analyze"
+    // const apiEndpoint = "https://speedx-website-performance-analyzer.onrender.com/analyze"
+
     try {
-      const response = await fetch('http://localhost:3001/analyze', {
+      const response = await fetch(apiEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -2,8 +2,11 @@ import express from "express"
 import fetch from 'node-fetch'
 import jsdom from "jsdom"
 import lighthouse from "lighthouse"
-import * as chromeLauncher from "chrome-launcher"
 import  cors from "cors"
+import { config} from "dotenv"
+import puppeteer from "puppeteer"
+
+config()
 
 const app = express();
 const { JSDOM } = jsdom
@@ -16,18 +19,31 @@ app.post('/analyze', async (req, res) => {
   const { url } = req.body;
 
   try {
-    const chrome = await chromeLauncher.launch({chromeFlags: ['--headless']});
+    // const chrome = await chromeLauncher.launch({chromeFlags: ['--headless'], 
+    //   chromePath: process.env.CHROME_PATH ||  'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+    // });
+    // const options = {
+    //   logLevel: 'info',
+    //   output: 'json',
+    //   onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
+    //   port: chrome.port,
+    // };
+
+  
+
+    const browser = await puppeteer.launch({args: ['--no-sandbox']});
     const options = {
       logLevel: 'info',
       output: 'json',
       onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
-      port: chrome.port,
+      port: (new URL(browser.wsEndpoint())).port,
     };
 
     const runnerResult = await lighthouse(url, options);
     const reportJson = JSON.parse(runnerResult.report);
     console.log(reportJson.audits, "report")
-    await chrome.kill();
+    await browser.close();
+    // await chrome.kill();
 
     const performanceScore = reportJson.categories.performance.score * 100;
     const accessibilityScore = reportJson.categories.accessibility.score * 100;
@@ -74,6 +90,12 @@ app.post('/analyze', async (req, res) => {
     res.status(500).json({ error: error.message  });
   }
 });
+
+app.get("/", async(req,res) => {
+  console.log("Available endpoints are &/analyze")
+
+    res.send({ mag: "avalable endpoints are '/analyze', 'POST' request" })
+})
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
