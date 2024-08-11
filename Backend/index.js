@@ -5,6 +5,7 @@ import lighthouse from "lighthouse"
 import  cors from "cors"
 import { config} from "dotenv"
 import puppeteer from "puppeteer"
+import * as chromeLauncher from "chrome-launcher" 
 
 config()
 
@@ -19,31 +20,32 @@ app.post('/analyze', async (req, res) => {
   const { url } = req.body;
 
   try {
-    // const chrome = await chromeLauncher.launch({chromeFlags: ['--headless'], 
-    //   chromePath: process.env.CHROME_PATH ||  'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
-    // });
-    // const options = {
-    //   logLevel: 'info',
-    //   output: 'json',
-    //   onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
-    //   port: chrome.port,
-    // };
-
-  
-
-    const browser = await puppeteer.launch({args: ['--no-sandbox']});
+    const chrome = await chromeLauncher.launch({chromeFlags: ['--headless'], 
+      chromePath: process.env.CHROME_PATH
+    });
     const options = {
       logLevel: 'info',
       output: 'json',
       onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
-      port: (new URL(browser.wsEndpoint())).port,
+      port: chrome.port,
     };
+
+  
+
+    // const browser = await puppeteer.launch({args: ['--no-sandbox']});
+    // const options = {
+    //   logLevel: 'info',
+    //   output: 'json',
+    //   onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
+    //   port: (new URL(browser.wsEndpoint())).port,
+    // };
 
     const runnerResult = await lighthouse(url, options);
     const reportJson = JSON.parse(runnerResult.report);
     console.log(reportJson.audits, "report")
-    await browser.close();
-    // await chrome.kill();
+
+    // await browser.close();
+    await chrome.kill();
 
     const performanceScore = reportJson.categories.performance.score * 100;
     const accessibilityScore = reportJson.categories.accessibility.score * 100;

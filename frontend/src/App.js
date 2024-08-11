@@ -15,8 +15,8 @@ function App() {
     setView('LOADING')
     setError('')
 
-    const apiEndpoint = "http://localhost:3001/analyze"
-    // const apiEndpoint = "https://speedx-website-performance-analyzer.onrender.com/analyze"
+    // const apiEndpoint = "http://localhost:3001/analyze"
+    const apiEndpoint = "https://speedx-website-performance-analyzer.onrender.com/analyze"
 
     try {
       const response = await fetch(apiEndpoint, {
